@@ -12,7 +12,7 @@
 #define LEN(arr) (sizeof(arr) / sizeof(arr[0]))
 #define MAX(a, b) (a > b ? a : b)
 #define BLOCK(cmd, interval, signal) \
-	{ "echo \"$(" cmd ")\"", interval, signal }
+	{ cmd, interval, signal }
 
 typedef const struct {
 	const char* command;
@@ -78,7 +78,7 @@ void execBlock(int i, const char* button) {
 
 		if (button)
 			setenv("BLOCK_BUTTON", button, 1);
-		execl("/bin/sh", "sh", "-c", blocks[i].command, (char*)NULL);
+		system(blocks[i].command);
 		_exit(1);
 	}
 }
